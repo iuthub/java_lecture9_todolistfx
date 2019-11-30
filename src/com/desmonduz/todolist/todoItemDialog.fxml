@@ -1,0 +1,26 @@
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.DatePicker?>
+<DialogPane fx:controller="com.desmonduz.todolist.DialogController"
+            xmlns:fx="http://javafx.com/fxml" >
+    <headerText>
+        Enter details of your new task
+    </headerText>
+    <content>
+        <GridPane vgap="10" hgap="10">
+            <Label text="Short Description" GridPane.columnIndex="0" GridPane.rowIndex="0"></Label>
+            <TextField fx:id="txtShortDescription" GridPane.columnIndex="1" GridPane.rowIndex="0"></TextField>
+
+            <Label text="Details" GridPane.columnIndex="0" GridPane.rowIndex="1"></Label>
+            <TextArea fx:id="txtDetails" GridPane.columnIndex="1" GridPane.rowIndex="1"></TextArea>
+
+            <Label text="Deadline" GridPane.columnIndex="0" GridPane.rowIndex="2"></Label>
+            <DatePicker fx:id="calDeadline" GridPane.columnIndex="1" GridPane.rowIndex="2"></DatePicker>
+        </GridPane>
+    </content>
+
+</DialogPane>

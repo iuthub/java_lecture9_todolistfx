@@ -14,6 +14,12 @@ public class TodoItem {
         this.deadline = deadline;
     }
 
+    public void load(TodoItem item) {
+        setDetails(item.getDetails());
+        setDeadline(item.getDeadline());
+        setShortDescription(item.getShortDescription());
+    }
+
     public String getShortDescription() {
         return shortDescription;
     }

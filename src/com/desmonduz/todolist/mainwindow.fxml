@@ -18,11 +18,11 @@
         <MenuBar>
             <Menu text="File">
                 <items>
-                    <MenuItem text="New" onAction="#showNewItemDialog"></MenuItem>
-                    <MenuItem text="Edit"></MenuItem>
-                    <MenuItem text="Remove"></MenuItem>
-                    <SeparatorMenuItem></SeparatorMenuItem>
-                    <MenuItem text="Exit"></MenuItem>
+                    <MenuItem text="New" onAction="#showNewItemDialog"/>
+                    <MenuItem text="Edit" onAction="#showEditItemDialog"/>
+                    <MenuItem text="Remove" onAction="#handleDeleteItem"/>
+                    <SeparatorMenuItem/>
+                    <MenuItem text="Exit" onAction="#handleClose"/>
                 </items>
             </Menu>
         </MenuBar>
@@ -34,16 +34,16 @@
     </left>
     <center>
         <VBox>
-            <TextArea fx:id="txtDescription" VBox.vgrow="ALWAYS"></TextArea>
+            <TextArea fx:id="txtDescription" VBox.vgrow="ALWAYS"/>
             <HBox spacing="10">
                 <Label text="Due: ">
                     <font>
-                        <Font name="Times New Roman bold" size="20"></Font>
+                        <Font name="Times New Roman bold" size="20"/>
                     </font>
                 </Label>
                 <Label fx:id="lblDeadline" style="-fx-background-color: white;">
                     <font>
-                        <Font name="Times New Roman bold" size="20"></Font>
+                        <Font name="Times New Roman bold" size="20"/>
                     </font>
                 </Label>
             </HBox>

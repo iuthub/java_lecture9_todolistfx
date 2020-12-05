@@ -11,19 +11,24 @@ import java.time.LocalDate;
 
 public class DialogController {
     @FXML
-    private TextField txtShortDescription;
+    public TextField txtShortDescription;
     @FXML
-    private TextArea txtDetails;
+    public TextArea txtDetails;
     @FXML
-    private DatePicker calDeadline;
+    public DatePicker calDeadline;
 
-    public TodoItem processResults(){
+    public TodoItem getItem(){
         String shortDesc = txtShortDescription.getText();
         String details = txtDetails.getText();
         LocalDate deadline = calDeadline.getValue();
-        TodoItem newItem =new TodoItem(shortDesc,details, deadline);
-        TodoRepository.getInstance().addTodoItem(newItem);
+        TodoItem newItem = new TodoItem(shortDesc,details, deadline);
 
         return newItem;
+    }
+
+    public void setItem(TodoItem item) {
+        calDeadline.setValue(item.getDeadline());
+        txtDetails.setText(item.getDetails());
+        txtShortDescription.setText(item.getShortDescription());
     }
 }

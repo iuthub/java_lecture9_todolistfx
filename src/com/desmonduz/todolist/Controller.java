@@ -2,6 +2,7 @@ package com.desmonduz.todolist;
 
 import com.desmonduz.todolist.datamodel.TodoItem;
 import com.desmonduz.todolist.datamodel.TodoRepository;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -10,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -28,29 +30,8 @@ public class Controller {
     @FXML
     private TextArea txtDescription;
 
-
     @FXML
     public void initialize(){
-//        TodoItem item1 = new TodoItem("Mail birthday card", "Buy birthday card", LocalDate.of(2019, Month.AUGUST, 20));
-//        TodoItem item2 = new TodoItem("Doctors Appointment", "See doctor at 123 Main Street", LocalDate.of(2019, Month.AUGUST, 22));
-//
-//        todoItems= new ArrayList<>();
-//
-//        todoItems.add(item1);
-//        todoItems.add(item2);
-//        TodoRepository.getInstance().setTodoItems(todoItems);
-//        MenuItem deleteMenuItem = new MenuItem("Remove");
-//        deleteMenuItem.setOnAction(new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent actionEvent) {
-//                TodoItem item = (TodoItem) lstToDoItems.getSelectionModel().getSelectedItem();
-//                deleteItem(item);
-//            }
-//        });
-//
-//        listContextMenu.getItems().addAll(deleteMenuItem);
-
-
         lstToDoItems.getSelectionModel().selectedItemProperty().addListener(new ChangeListener() {
             @Override
             public void changed(ObservableValue observableValue, Object o, Object t1) {
@@ -80,6 +61,7 @@ public class Controller {
 
     @FXML
     public void handleClickListView(){
+        lstToDoItems.refresh();
         TodoItem selectedItem = (TodoItem) lstToDoItems.getSelectionModel().getSelectedItem();
         if (selectedItem!=null){
             txtDescription.setText(selectedItem.getDetails());
@@ -87,6 +69,43 @@ public class Controller {
         }
 
 
+    }
+
+
+    public void handleDeleteItem(ActionEvent actionEvent) {
+                TodoItem item = (TodoItem) lstToDoItems.getSelectionModel().getSelectedItem();
+                deleteItem(item);
+    }
+
+    public void showEditItemDialog() throws IOException {
+        TodoItem item = (TodoItem) lstToDoItems.getSelectionModel().getSelectedItem();
+
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.initOwner(mainBorderPane.getScene().getWindow());
+        dialog.setTitle("Edit To Do Item");
+
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(getClass().getResource("todoItemDialog.fxml"));
+
+        try {
+            dialog.getDialogPane().setContent(fxmlLoader.load());
+        } catch (IOException ex){
+            System.out.println(ex.getMessage());
+        }
+
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.OK);
+        dialog.getDialogPane().getButtonTypes().add(ButtonType.CANCEL);
+
+        DialogController controller = fxmlLoader.getController();
+        controller.setItem(item);
+
+        Optional<ButtonType> result = dialog.showAndWait();
+
+        if(result.isPresent() && result.get()==ButtonType.OK) {
+            item.load(controller.getItem());
+            handleClickListView();
+            TodoRepository.getInstance().storeTodoItems();
+        }
     }
 
     public void showNewItemDialog(){
@@ -110,9 +129,13 @@ public class Controller {
 
         if(result.isPresent() && result.get()==ButtonType.OK) {
             DialogController controller = fxmlLoader.getController();
-            TodoItem item=controller.processResults();
-//            lstToDoItems.getItems().setAll(TodoRepository.getInstance().getTodoItems());
+            TodoItem item=controller.getItem();
+            TodoRepository.getInstance().addTodoItem(item);
             lstToDoItems.getSelectionModel().select(item);
         }
+    }
+
+    public void handleClose() {
+        Platform.exit();
     }
 }

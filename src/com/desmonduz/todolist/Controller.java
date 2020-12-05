@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.util.Optional;
 
 public class Controller {
-
     @FXML
     private BorderPane mainBorderPane;
 
@@ -58,7 +57,6 @@ public class Controller {
         }
     }
 
-
     @FXML
     public void handleClickListView(){
         lstToDoItems.refresh();
@@ -71,12 +69,13 @@ public class Controller {
 
     }
 
-
+    @FXML
     public void handleDeleteItem(ActionEvent actionEvent) {
                 TodoItem item = (TodoItem) lstToDoItems.getSelectionModel().getSelectedItem();
                 deleteItem(item);
     }
 
+    @FXML
     public void showEditItemDialog() throws IOException {
         TodoItem item = (TodoItem) lstToDoItems.getSelectionModel().getSelectedItem();
 
@@ -108,6 +107,7 @@ public class Controller {
         }
     }
 
+    @FXML
     public void showNewItemDialog(){
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.initOwner(mainBorderPane.getScene().getWindow());
@@ -135,6 +135,7 @@ public class Controller {
         }
     }
 
+    @FXML
     public void handleClose() {
         Platform.exit();
     }
